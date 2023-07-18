@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Selenide.$;
@@ -19,14 +20,20 @@ public class webTest {
       // Информация ниже для запуска webDriver для работы на Selenium
     WebDriver driver;
 
+
     @BeforeAll
     static void setupAll() {
         WebDriverManager.chromedriver().setup();
+
     }
 
     @BeforeEach
     void setup() {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--headless");
+        driver = new ChromeDriver(options);
     }
 
     @AfterEach
@@ -36,7 +43,7 @@ public class webTest {
 
     // Автотест на Selenium
     @Test
-    void test() {
+    void SeleniumApplicationSentTest() {
         driver.get("http://localhost:9999");
         WebElement form = driver.findElement(By.className("form"));
         form.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Петров Иван");
